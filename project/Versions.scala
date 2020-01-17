@@ -10,7 +10,7 @@ object Versions {
 
   val flinkVersion          = "1.9.0"
 
-  val sparkVersion          = "2.4.4"
+  val sparkVersion          = "2.4.2"
   val kryoVersion           = "2.24.0"
 
   val alpakkaKafkaVersion   = "1.0.5"

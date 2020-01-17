@@ -7,8 +7,7 @@ object Dependencies {
   val flinkStreaming        = "org.apache.flink"        %% "flink-streaming-scala"              % flinkVersion
   val flinkKafka            = "org.apache.flink"        %% "flink-connector-kafka"              % flinkVersion
   val flinkQueryableRuntime = "org.apache.flink"        %% "flink-queryable-state-runtime"      % flinkVersion
-  val flinkQueryableClient  = "org.apache.flink"        % "flink-queryable-state-client-java"   % flinkVersion
-  val joda                  = "joda-time"               % "joda-time"                           % jodaVersion
+  val flinkCassandra        = "org.apache.flink"        %% "flink-connector-cassandra"          % flinkVersion
 
   val sparkcore             = "org.apache.spark"        %% "spark-core"                         % sparkVersion
   val sparkstreaming        = "org.apache.spark"        %% "spark-streaming"                    % sparkVersion
@@ -16,6 +15,9 @@ object Dependencies {
   val sparkSQL              = "org.apache.spark"        %% "spark-sql"                          % sparkVersion
   val sparkkafka            = "org.apache.spark"        %% "spark-streaming-kafka-0-10"         % sparkVersion
   val sparkMLLib            = "org.apache.spark"        %% "spark-mllib"                        % sparkVersion
+  val sparkCassandra        = "com.datastax.spark"      %% "spark-cassandra-connector"          % sparkVersion
+
+  val joda                  = "joda-time"               % "joda-time"                           % jodaVersion
   
   val gson                  = "com.google.code.gson"     % "gson"                               % gsonVersion
 
@@ -28,6 +30,6 @@ object Dependencies {
   val silencerDependencies = Seq(compilerPlugin(silencerPlugin), silencer)
 
 
-  val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkQueryableClient, joda, slf4jlog4j) ++ silencerDependencies
-  val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, slf4jlog4j) ++ silencerDependencies
+  val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkCassandra, joda, slf4jlog4j) ++ silencerDependencies
+  val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, sparkCassandra, slf4jlog4j) ++ silencerDependencies
 }

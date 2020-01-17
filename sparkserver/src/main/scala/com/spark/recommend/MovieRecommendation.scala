@@ -24,9 +24,13 @@ object MovieRecommendation {
     val ratingsDF = df1.select(df1.col("userId"), df1.col("movieId"), df1.col("rating"), df1.col("timestamp"))
     ratingsDF.show(false)
 
+    println("ratings count: " + ratingsDF.count())
+
     val df2 = spark.read.format("com.databricks.spark.csv").option("header", true).load(moviesFile)
     val moviesDF = df2.select(df2.col("movieId"), df2.col("title"), df2.col("genres"))
     moviesDF.show(false)
+
+    println("movies count: " + moviesDF.count())
 
     // eda
     eda(spark, ratingsDF, moviesDF)
