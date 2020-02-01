@@ -9,6 +9,10 @@ import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 
+/**
+  * Streaming + MLlib refer:
+  * https://databricks.com/blog/2015/07/30/diving-into-apache-spark-streamings-execution-model.html
+  */
 object KafkaStreamJob {
 
   def main(args: Array[String]): Unit = {
@@ -38,55 +42,7 @@ object KafkaStreamJob {
       Subscribe[Array[Byte], Array[Byte]](topics, kafkaParams)
     )
 
-    //    ratingsStream.foreachRDD { rdd =>
-    //      rdd.foreachPartition { partition =>
-    ////        val savedALSModel = MatrixFactorizationModel.load(sc, modelPath)
-    //
-    //        while (partition.hasNext) {
-    //          val record = new String(partition.next().value())
-    //
-    //          if (record != "") {
-    //            val userId = record.split(",")(0).toInt
-    //            println("userId: " + userId)
-    //          }
-    //        }
-    //      }
-    //
-    //    }
-
-    /*
-    ratingsStream.foreachRDD { rdd =>
-      val savedALSModel = MatrixFactorizationModel.load(sc, modelPath)
-      rdd.foreachPartition { partition =>
-        val userList = partition
-          .map(record => new String(record.value()))
-          .filter(_ != "")
-          .map(x => x.split(",")(0).toInt)
-
-        while (userList.hasNext) {
-          val userId = userList.next()
-          val recommendResult = savedALSModel.recommendProducts(userId, 5)
-          println("recommendResult: " + recommendResult)
-        }
-      }
-    }*/
-
-    /*
-    ratingsStream.foreachRDD { rdd =>
-      val savedALSModel = MatrixFactorizationModel.load(rdd.sparkContext, modelPath)
-
-      rdd.foreach { record =>
-        val row = new String(record.value())
-        if (row != "") {
-          val userId = row.split(",")(0).toInt
-          println("userId: " + userId)
-
-          val recommendResult = savedALSModel.recommendProducts(userId, 5)
-          println("recommendResult: " + recommendResult)
-        }
-      }
-    }*/
-
+    // The saved model can't be applied so far. It need to find a solution.
     val savedALSModel = MatrixFactorizationModel.load(sc, modelPath)
 
     val userIds = ratingsStream
@@ -102,20 +58,6 @@ object KafkaStreamJob {
     result.foreachRDD { rdd =>
       rdd.foreach(println)
     }
-
-    /*
-    ratingsStream.foreachRDD { rdd =>
-      val userIds = rdd.map(record => new String(record.value()))
-        .filter(_ != "")
-        .map(x => x.split(",")(0).toInt)
-
-      val result = userIds.map { userId =>
-        val recommendResult = savedALSModel.recommendProducts(userId, 3)
-        recommendResult
-      }
-
-      result.foreach(println)
-    }*/
 
     ssc.start()
     ssc.awaitTermination()
