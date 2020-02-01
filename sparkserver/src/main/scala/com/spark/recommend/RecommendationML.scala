@@ -72,11 +72,11 @@ object RecommendationML {
     val rmse1 = computeRMSE(savedALSModel, testingDF.toDF())
     println("Test RMSE: " + rmse1)
 
-    // Generate top 10 movie recommendations for each user
+    // Generate top 5 movie recommendations for each user
     val userRecs = model.recommendForAllUsers(5)
     userRecs.show(false)
 
-    // Generate top 10 user recommendations for each movie
+    // Generate top 5 user recommendations for each movie
     val movieRecs = model.recommendForAllItems(5)
     movieRecs.show(false)
 

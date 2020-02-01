@@ -47,8 +47,8 @@ object MovieCassandra {
 
     ExploratoryDataAnalysis.eda(spark, ratingsDF, moviesDF)
 
-//    RecommendationMLLib.train(spark, ratingsDF)
-    RecommendationML.train(spark, ratingsDF)
+    RecommendationMLLib.train(spark, ratingsDF)
+//    RecommendationML.train(spark, ratingsDF)
 
     spark.stop()
   }

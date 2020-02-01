@@ -4,13 +4,14 @@ import com.spark.utils.SparkUtil
 import org.apache.spark.ml.recommendation.ALSModel
 import org.apache.spark.sql.streaming.OutputMode
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
 
-object FileStreamJob {
+object FileStructureStreamJob {
 
   def main(args: Array[String]): Unit = {
 
     val master = "local[4]"
-    val appName = "Movie Recommendation File Stream"
+    val appName = "Movie Recommendation File Structure Stream"
     val logLevel = "ERROR"
 
     val spark = SparkUtil.getSparkSession(master, appName, logLevel)
@@ -32,15 +33,21 @@ object FileStreamJob {
       .option("header", true)
       .schema(schema).csv(ratingsFilePath)
 
-    val predictions = savedALSModel.transform(ratingsStreamDF)
+    ratingsStreamDF.printSchema()
 
-    val query = predictions.writeStream
+    val predictionsDF = savedALSModel.transform(ratingsStreamDF)
+//    val recommendationsDF = savedALSModel.recommendForItemSubset(ratingsStreamDF, 5)
+//    val recWithTimeDF = recommendationsDF.withColumn("timestamp", current_timestamp())
+
+    val query = predictionsDF
+//      .withWatermark("timestamp", "1 seconds")
+      .writeStream
       .format("console")
       .outputMode(OutputMode.Append())
       .start()
 
     query.awaitTermination()
 
-    //    spark.streams.awaitAnyTermination()
+//    spark.streams.awaitAnyTermination()
   }
 }

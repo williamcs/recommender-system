@@ -19,3 +19,4 @@ tmp
 _site
 build-target
 data/model
+data/kafka_local

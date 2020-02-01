@@ -3,6 +3,10 @@ import sbt._
 
 object Dependencies {
 
+  val kafka                 = "org.apache.kafka"        %% "kafka"                              % kafkaVersion
+  val curator               = "org.apache.curator"      % "curator-test"                        % curatorVersion                 // ApacheV2
+  val commonIO              = "commons-io"              % "commons-io"                          % commonIOVersion
+
   val flinkScala            = "org.apache.flink"        %% "flink-scala"                        % flinkVersion
   val flinkStreaming        = "org.apache.flink"        %% "flink-streaming-scala"              % flinkVersion
   val flinkKafka            = "org.apache.flink"        %% "flink-connector-kafka"              % flinkVersion
@@ -17,6 +21,15 @@ object Dependencies {
   val sparkMLLib            = "org.apache.spark"        %% "spark-mllib"                        % sparkVersion
   val sparkCassandra        = "com.datastax.spark"      %% "spark-cassandra-connector"          % sparkVersion
 
+  val kryo                  = "com.esotericsoftware.kryo" % "kryo"                              % kryoVersion
+
+  val alpakkaKafka          = "com.typesafe.akka"       %% "akka-stream-kafka"                  % alpakkaKafkaVersion
+
+  val akkaStreamTyped       = "com.typesafe.akka"       %% "akka-stream-typed"                  % akkaVersion
+  val akkaHttp              = "com.typesafe.akka"       %% "akka-http"                          % akkaHttpVersion
+  val akkaHttpJsonJackson   = "de.heikoseeberger"       %% "akka-http-jackson"                  % akkaHttpJsonVersion
+  val akkatyped             = "com.typesafe.akka"       %% "akka-actor-typed"                   % akkaVersion
+  
   val joda                  = "joda-time"               % "joda-time"                           % jodaVersion
   
   val gson                  = "com.google.code.gson"     % "gson"                               % gsonVersion
@@ -29,7 +42,10 @@ object Dependencies {
 
   val silencerDependencies = Seq(compilerPlugin(silencerPlugin), silencer)
 
-
+  val modelsDependencies = silencerDependencies
+  val clientDependencies = Seq(kafka, curator, commonIO, slf4jlog4j) ++ silencerDependencies
   val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkCassandra, joda, slf4jlog4j) ++ silencerDependencies
   val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, sparkCassandra, slf4jlog4j) ++ silencerDependencies
+  val akkaServerDependencies = Seq(alpakkaKafka, akkaStreamTyped, akkatyped, akkaHttp, akkaHttpJsonJackson, slf4jlog4j) ++ silencerDependencies
+
 }
