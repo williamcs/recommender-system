@@ -2,7 +2,7 @@ package com.flink.sources
 
 import java.io.{BufferedReader, FileInputStream, InputStreamReader}
 
-import com.flink.datatypes.Ratings
+import com.datatypes.Ratings
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 
 class RatingsSource(ratingsFilePath: String) extends SourceFunction[Ratings] {

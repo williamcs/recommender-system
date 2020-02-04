@@ -17,18 +17,18 @@ object KafkaStreamJob {
 
   def main(args: Array[String]): Unit = {
 
-    val master = "local[4]"
-    val appName = "Movie Recommendation Kafka Stream"
-    val brokers = "localhost:9092"
-    val modelPath = "data/model/alsmodel_mllib"
+    val master = SPARK_MASTER
+    val appName = SPARK_KAFKA_STREAM_APP_NAME
+    val brokers = KAFKA_KAFKA_BROKER
+    val mllibModelPath = SPARK_MLLIB_MODEL_PATH
 
     val sparkConf = new SparkConf().setMaster(master).setAppName(appName)
     val sc = new SparkContext(sparkConf)
     val ssc = new StreamingContext(sc, Seconds(2))
 
     // create direct kafka stream with brokers and topics
-    val topics = Array(RATINGS_TOPIC)
-    val group = RATINGS_GROUP
+    val topics = Array(KAFKA_RATINGS_TOPIC)
+    val group = KAFKA_RATINGS_GROUP
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> brokers,
       "key.deserializer" -> classOf[ByteArrayDeserializer],
@@ -42,8 +42,8 @@ object KafkaStreamJob {
       Subscribe[Array[Byte], Array[Byte]](topics, kafkaParams)
     )
 
-    // The saved model can't be applied so far. It need to find a solution.
-    val savedALSModel = MatrixFactorizationModel.load(sc, modelPath)
+    // the saved model can't be applied so far, need to find a solution.
+    val savedALSModel = MatrixFactorizationModel.load(sc, mllibModelPath)
 
     val userIds = ratingsStream
       .map(event => new String(event.value())).filter(_ != "")

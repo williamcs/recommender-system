@@ -4,7 +4,15 @@ import java.util.UUID
 
 class Movies(var id: String, var movieId: Int, var title: String, var genres: String) {
 
-  override def toString = s"Movies($id, $movieId, $title, $genres)"
+  override def toString: String = {
+    val sb: StringBuilder = new StringBuilder
+
+    sb.append(movieId).append(",")
+    sb.append(title).append(",")
+    sb.append(genres).append(",")
+
+    sb.toString
+  }
 }
 
 object Movies {

@@ -1,12 +1,13 @@
 package com.flink.sinks
 
+import com.configuration.Configuration._
 import com.datastax.driver.core.{Cluster, Session}
 import org.apache.flink.streaming.api.scala.DataStream
 import org.apache.flink.streaming.connectors.cassandra.{CassandraSink, ClusterBuilder}
 
 object MoviesSink {
 
-  private val HOST = "127.0.0.1"
+  private val HOST = CASSANDRA_HOST
 
   private val CREATE_KEYSPACE =
     """

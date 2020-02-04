@@ -35,13 +35,16 @@ object Dependencies {
   val gson                  = "com.google.code.gson"     % "gson"                               % gsonVersion
 
   val slf4jlog4j            = "org.slf4j"                % "slf4j-log4j12"                      % slf4jlog4jVersion
+  
+  val typesafeConfig        = "com.typesafe"             % "config"                             % configVersion
 
   // Adds the @silencer annotation for suppressing deprecation warnings we don't care about.
   val silencer              = "com.github.ghik"         %% "silencer-lib"                       % silencerVersion     % Provided
   val silencerPlugin        = "com.github.ghik"         %% "silencer-plugin"                    % silencerVersion     % Provided
 
   val silencerDependencies = Seq(compilerPlugin(silencerPlugin), silencer)
-
+  
+  val configDependencies = Seq(typesafeConfig) ++ silencerDependencies
   val modelsDependencies = silencerDependencies
   val clientDependencies = Seq(kafka, curator, commonIO, slf4jlog4j) ++ silencerDependencies
   val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkCassandra, joda, slf4jlog4j) ++ silencerDependencies

@@ -17,7 +17,7 @@ class KafkaLocalServer private(kafkaProperties: Properties, zooKeeperServer: Zoo
 
   private var broker = null.asInstanceOf[KafkaServerStartable]
   @silent
-  private var zkUtils: ZkUtils =
+  private val zkUtils: ZkUtils =
     ZkUtils.apply(s"localhost:${zooKeeperServer.getPort()}", DEFAULT_ZK_SESSION_TIMEOUT_MS, DEFAULT_ZK_CONNECTION_TIMEOUT_MS, false)
 
   def start(): Unit = {

@@ -11,6 +11,7 @@ scalacOptions in ThisBuild ++= Seq(
   "-deprecation")
 
 lazy val configuration = (project in file("./configuration"))
+  .settings(libraryDependencies ++= Dependencies.configDependencies)
 
 lazy val client = (project in file("./client"))
   .settings(libraryDependencies ++= Dependencies.clientDependencies)
@@ -21,7 +22,7 @@ lazy val model = (project in file("./model"))
 
 lazy val flinkserver = (project in file("./flinkserver"))
   .settings(libraryDependencies ++= Dependencies.flinkDependencies)
-  .dependsOn(configuration)
+  .dependsOn(model, configuration)
 
 lazy val sparkserver = (project in file("./sparkserver"))
   .settings(libraryDependencies ++= Dependencies.sparkDependencies)

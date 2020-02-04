@@ -1,13 +1,14 @@
 package com.flink.topologies
 
-import com.flink.datatypes.{Movies, Ratings}
+import com.configuration.Configuration._
+import com.datatypes.{Movies, Ratings}
 import com.flink.sinks.{MoviesSink, RatingsSink}
 import com.flink.sources.{MoviesSource, RatingsSource}
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.scala._
 
-object FlinkRatingsJob {
+object FlinkFileJob {
 
   def main(args: Array[String]): Unit = {
 
@@ -17,8 +18,8 @@ object FlinkRatingsJob {
     env.setMaxParallelism(1)
     env.setParallelism(1)
 
-    val ratingsFilePath = "data/ml-latest-small/ratings.csv"
-    val moviesFilePath = "data/ml-latest-small/movies.csv"
+    val ratingsFilePath = RATINGS_FILE_PATH
+    val moviesFilePath = MOVIES_FILE_PATH
 
     val ratingsStream: DataStream[Ratings] = env.addSource(new RatingsSource(ratingsFilePath))
     val ratingsTupleStream: DataStream[(String, Int, Int, Double, Long)] = ratingsStream
@@ -36,7 +37,7 @@ object FlinkRatingsJob {
     RatingsSink.sinkToCassandra(ratingsTupleStream)
     MoviesSink.sinkToCassandra(moviesTupleStream)
 
-    env.execute("Flink Ratings Job")
+    env.execute("Flink File Job")
   }
 
 }

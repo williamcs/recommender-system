@@ -23,4 +23,6 @@ object Versions {
   val slf4jlog4jVersion     = "1.7.25"
 
   val silencerVersion       = "1.3.1"
+  
+  val configVersion         = "1.4.0"
 }

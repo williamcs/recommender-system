@@ -1,21 +1,20 @@
 package com.spark.stream
 
-import com.configuration.Configuration.RATINGS_TOPIC
+import com.configuration.Configuration._
+import com.datatypes.RawRatings
 import com.spark.utils.SparkUtil
 import org.apache.spark.ml.recommendation.ALSModel
 import org.apache.spark.sql.streaming.OutputMode
-
-case class RawRatings(userId: Int, movieId: Int, timeStamp: Long)
 
 object KafkaStructureStreamJob {
 
   def main(args: Array[String]): Unit = {
 
-    val master = "local[4]"
-    val appName = "Movie Recommendation Kafka Stream"
-    val logLevel = "ERROR"
-    val brokers = "localhost:9092"
-    val outputPath = "data/model/alsmodel_ml"
+    val master = SPARK_MASTER
+    val appName = SPARK_KAFKA_STRUCTURE_STREAM_APP_NAME
+    val logLevel = SPARK_LOG_LEVEL
+    val brokers = KAFKA_KAFKA_BROKER
+    val mlModelPath = SPARK_ML_MODEL_PATH
 
     val spark = SparkUtil.getSparkSession(master, appName, logLevel)
 
@@ -24,15 +23,15 @@ object KafkaStructureStreamJob {
     val inputDF = spark.readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", brokers)
-      .option("subscribe", RATINGS_TOPIC)
+      .option("subscribe", KAFKA_RATINGS_TOPIC)
       .load()
 
-    val savedALSModel = ALSModel.load(outputPath)
+    val savedALSModel = ALSModel.load(mlModelPath)
 
     val ratingsStringDF = inputDF.selectExpr("CAST(value AS STRING)").as[String]
 
     val ratingsDF = ratingsStringDF
-//      .map(row => row.getAs[String](0))
+      //      .map(row => row.getAs[String](0))
       .map(_.split(","))
       .map(r => RawRatings(r(0).toInt, r(1).toInt, r(3).toLong))
 
