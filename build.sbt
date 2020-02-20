@@ -10,6 +10,12 @@ scalacOptions in ThisBuild ++= Seq(
   "-language:postfixOps",
   "-deprecation")
 
+lazy val protobufs = (project in file("./protobufs"))
+  .settings(
+    PB.targets in Compile := Seq(
+      scalapb.gen() -> (sourceManaged in Compile).value))
+  .settings(libraryDependencies ++= Dependencies.scalapbDependencies)
+
 lazy val configuration = (project in file("./configuration"))
   .settings(libraryDependencies ++= Dependencies.configDependencies)
 
@@ -30,7 +36,7 @@ lazy val sparkserver = (project in file("./sparkserver"))
 
 lazy val akkaserver = (project in file("./akkaserver"))
   .settings(libraryDependencies ++= Dependencies.akkaServerDependencies)
-  .dependsOn(configuration)
+  .dependsOn(sparkserver, model, configuration, protobufs)
 
 lazy val root = (project in file(".")).
-  aggregate(client, model, configuration, flinkserver, sparkserver, akkaserver)
+  aggregate(protobufs, client, model, configuration, flinkserver, sparkserver, akkaserver)

@@ -17,7 +17,6 @@ object Configuration {
   val MOVIES_FILE_PATH = appConf.getString("movies_file_path")
   val TEST_RATINGS_FILE_PATH = appConf.getString("test_ratings_file_path")
 
-
   // kafka configuration
   val KAFKA_ZOOKEEPER_HOST = kafkaConf.getString("zookeeper_host")
   val KAFKA_KAFKA_BROKER = kafkaConf.getString("kafka_brokers")

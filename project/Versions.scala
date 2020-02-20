@@ -14,9 +14,10 @@ object Versions {
   val kryoVersion           = "2.24.0"
 
   val alpakkaKafkaVersion   = "1.0.5"
-  val akkaVersion           = "2.5.25"
+  val akkaVersion           = "2.6.3"
   val akkaHttpVersion       = "10.1.9"
   val akkaHttpJsonVersion   = "1.27.0"
+  val akkaGrpcVersion       =  "0.7.3"
 
   val gsonVersion           = "2.8.5"
 
@@ -25,4 +26,6 @@ object Versions {
   val silencerVersion       = "1.3.1"
   
   val configVersion         = "1.4.0"
+  
+  val scalaTestVersion      = "3.0.5"
 }

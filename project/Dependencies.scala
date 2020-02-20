@@ -29,6 +29,12 @@ object Dependencies {
   val akkaHttp              = "com.typesafe.akka"       %% "akka-http"                          % akkaHttpVersion
   val akkaHttpJsonJackson   = "de.heikoseeberger"       %% "akka-http-jackson"                  % akkaHttpJsonVersion
   val akkatyped             = "com.typesafe.akka"       %% "akka-actor-typed"                   % akkaVersion
+
+  val scalapbRuntime        = "com.thesamet.scalapb"    %% "scalapb-runtime"                    % scalapb.compiler.Version.scalapbVersion % "protobuf"
+  val grpcNetty             = "io.grpc"                 % "grpc-netty"                          % scalapb.compiler.Version.grpcJavaVersion
+  val scalapbRuntimeGrpc    = "com.thesamet.scalapb"    %% "scalapb-runtime-grpc"               % scalapb.compiler.Version.scalapbVersion
+  
+  val scalaTest             = "org.scalatest"           %% "scalatest"                          % scalaTestVersion % "test"
   
   val joda                  = "joda-time"               % "joda-time"                           % jodaVersion
   
@@ -49,6 +55,6 @@ object Dependencies {
   val clientDependencies = Seq(kafka, curator, commonIO, slf4jlog4j) ++ silencerDependencies
   val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkCassandra, joda, slf4jlog4j) ++ silencerDependencies
   val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, sparkCassandra, slf4jlog4j) ++ silencerDependencies
-  val akkaServerDependencies = Seq(alpakkaKafka, akkaStreamTyped, akkatyped, akkaHttp, akkaHttpJsonJackson, slf4jlog4j) ++ silencerDependencies
-
+  val akkaServerDependencies = Seq(alpakkaKafka, akkaStreamTyped, akkatyped, akkaHttp, akkaHttpJsonJackson, scalaTest, slf4jlog4j) ++ silencerDependencies
+  val scalapbDependencies = Seq(scalapbRuntime, grpcNetty, scalapbRuntimeGrpc) ++ silencerDependencies
 }
