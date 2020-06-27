@@ -33,8 +33,8 @@ object MovieCSV {
     ExploratoryDataAnalysis.eda(spark, ratingsDF, moviesDF)
 
     // train the model
-    RecommendationML.train(spark, ratingsDF)
-//    RecommendationMLLib.train(spark, ratingsDF)
+//    RecommendationML.train(spark, ratingsDF)
+    RecommendationMLLib.train(spark, ratingsDF)
 
     spark.stop()
   }

@@ -11,10 +11,9 @@ scalacOptions in ThisBuild ++= Seq(
   "-deprecation")
 
 lazy val protobufs = (project in file("./protobufs"))
-  .settings(
-    PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value))
-  .settings(libraryDependencies ++= Dependencies.scalapbDependencies)
+  .enablePlugins(AkkaGrpcPlugin)
+  .enablePlugins(JavaAgent)
+  .settings(javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.7" % "runtime;test")
 
 lazy val configuration = (project in file("./configuration"))
   .settings(libraryDependencies ++= Dependencies.configDependencies)
@@ -31,6 +30,7 @@ lazy val flinkserver = (project in file("./flinkserver"))
   .dependsOn(model, configuration)
 
 lazy val sparkserver = (project in file("./sparkserver"))
+  .settings(dependencyOverrides += Dependencies.fasterJacksonDatabind)
   .settings(libraryDependencies ++= Dependencies.sparkDependencies)
   .dependsOn(model, configuration)
 

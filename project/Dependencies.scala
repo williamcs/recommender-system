@@ -21,18 +21,21 @@ object Dependencies {
   val sparkMLLib            = "org.apache.spark"        %% "spark-mllib"                        % sparkVersion
   val sparkCassandra        = "com.datastax.spark"      %% "spark-cassandra-connector"          % sparkVersion
 
+  val hadoopCommon          = "org.apache.hadoop"       % "hadoop-common"                       % hadoopVersion
+  val hadoopMapReduceClient = "org.apache.hadoop"       % "hadoop-mapreduce-client-core"        % hadoopVersion
+
   val kryo                  = "com.esotericsoftware.kryo" % "kryo"                              % kryoVersion
 
   val alpakkaKafka          = "com.typesafe.akka"       %% "akka-stream-kafka"                  % alpakkaKafkaVersion
 
   val akkaStreamTyped       = "com.typesafe.akka"       %% "akka-stream-typed"                  % akkaVersion
   val akkaHttp              = "com.typesafe.akka"       %% "akka-http"                          % akkaHttpVersion
-  val akkaHttpJsonJackson   = "de.heikoseeberger"       %% "akka-http-jackson"                  % akkaHttpJsonVersion
+  val akkaHttpJsonJackson   = "de.heikoseeberger"       %% "akka-http-jackson"                  % akkaHttpJsonVersion % "test"
+//  val akkaHttpJsonJackson   = "com.typesafe.akka"       %% "akka-http-jackson"                  % akkaHttpVersion
   val akkatyped             = "com.typesafe.akka"       %% "akka-actor-typed"                   % akkaVersion
 
-  val scalapbRuntime        = "com.thesamet.scalapb"    %% "scalapb-runtime"                    % scalapb.compiler.Version.scalapbVersion % "protobuf"
-  val grpcNetty             = "io.grpc"                 % "grpc-netty"                          % scalapb.compiler.Version.grpcJavaVersion
-  val scalapbRuntimeGrpc    = "com.thesamet.scalapb"    %% "scalapb-runtime-grpc"               % scalapb.compiler.Version.scalapbVersion
+  val akkaDiscovery         = "com.typesafe.akka"       %% "akka-discovery"                     % akkaVersion
+  val akkaStreamTestKit     = "com.typesafe.akka"       %% "akka-stream-testkit"                % akkaVersion % "test"
   
   val scalaTest             = "org.scalatest"           %% "scalatest"                          % scalaTestVersion % "test"
   
@@ -44,17 +47,18 @@ object Dependencies {
   
   val typesafeConfig        = "com.typesafe"             % "config"                             % configVersion
 
+  val fasterJacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind"                 % fastJacksonVersion
+
   // Adds the @silencer annotation for suppressing deprecation warnings we don't care about.
   val silencer              = "com.github.ghik"         %% "silencer-lib"                       % silencerVersion     % Provided
   val silencerPlugin        = "com.github.ghik"         %% "silencer-plugin"                    % silencerVersion     % Provided
-
+  
   val silencerDependencies = Seq(compilerPlugin(silencerPlugin), silencer)
   
   val configDependencies = Seq(typesafeConfig) ++ silencerDependencies
   val modelsDependencies = silencerDependencies
   val clientDependencies = Seq(kafka, curator, commonIO, slf4jlog4j) ++ silencerDependencies
   val flinkDependencies = Seq(flinkScala, flinkStreaming, flinkKafka, flinkQueryableRuntime, flinkCassandra, joda, slf4jlog4j) ++ silencerDependencies
-  val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, sparkCassandra, slf4jlog4j) ++ silencerDependencies
-  val akkaServerDependencies = Seq(alpakkaKafka, akkaStreamTyped, akkatyped, akkaHttp, akkaHttpJsonJackson, scalaTest, slf4jlog4j) ++ silencerDependencies
-  val scalapbDependencies = Seq(scalapbRuntime, grpcNetty, scalapbRuntimeGrpc) ++ silencerDependencies
+  val sparkDependencies = Seq(sparkcore, sparkstreaming, sparkkafka, sparkSQL, sparkSQLkafka, sparkMLLib, sparkCassandra, hadoopCommon, hadoopMapReduceClient, slf4jlog4j) ++ silencerDependencies
+  val akkaServerDependencies = Seq(alpakkaKafka, akkaStreamTyped, akkatyped, akkaHttp, akkaHttpJsonJackson, akkaDiscovery, akkaStreamTestKit, scalaTest, slf4jlog4j) ++ silencerDependencies
 }
